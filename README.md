@@ -14,7 +14,7 @@ The 'scripts' folder is organized similarly to the 'data' folder'.
 
 ### Prerequisites
 - Python 3.8 or higher
-- Python packages listed in the relevant requirements.txt file. The folders 'final runs' and 'trial runs' both contain a unique requirements file. During the thesis a separate virtual environment was created for both. 
+- Python packages listed in the relevant requirements.txt file. The folders 'final runs' and 'trial runs' both contain a unique requirements file (during the thesis a separate virtual environment was created for both). 
 
 ### Running scripts
 If you would like to run the scripts to generate the synthetic data. Then it is important to first install MODFLOW 6. Run `install_MODFLOW.py` from either `final runs` or `trial runs`.
