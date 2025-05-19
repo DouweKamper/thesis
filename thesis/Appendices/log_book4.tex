@@ -1,0 +1,43 @@
+\subsection{resolving MODFLOW simulation errors}\label{MODFLOW_ERRORS}
+MODFLOW raised an \textit{AssertionError} for some parameter sets, when generating the results for \hyperref[emcee first results]{\textcolor{blue}{Section }\ref{emcee first results}}. In total 185 AssertionErrors were encountered in approximately 135,000 simulations (3 samplers * 3 ensembles * 10 chains * 1500 steps). AssertionErrors were encounterd from all models, with the majority from Model 4.  
+
+These errors can be resolved in different ways. By default the selected solver is the Simple solver, where Simple indicates that default solver input values will be defined that work well for nearly linear models. This option is generally suitable for models that do not include nonlinear stress packages and models that are either confined or consist of a single unconfined layer that is thick enough to contain the water table within a single layer \cite{waterloo2024solver}. Changing the solver complexity to Moderate or Complex will resolve most errors. However, the Simple solver is most appropriate for the models designed for this thesis, as they have little complexity. 
+
+Another possible solution is to make convergence criteria of the selected solver less strict (note that every solver has a linear and non-linear version, from which one is selected automatically). This can be accomplished by changing the values of Inner\_dvclose and Outer\_dvclose. Where, Outer\_dvclose is a "real value defining the dependent-variable (for example, head or concentration) change criterion for convergence of the outer (nonlinear) iterations, in units of the dependent-variable (for example, length for head or mass per length cubed for concentrations). When the maximum absolute value of the dependent-variable change at all nodes during an iteration is less than or equal to OUTER\_DVCLOSE, iteration stops" \cite{waterloo2024solver}. Inner\_dvclose is similar to Outer\_dvclose, but used by the linear solver instead. While increasing Inner\_dvclose and Outer\_dvclose does eventually resolve all errors, it requires increasing their values by three orders of magnitude (\hyperref[tab_dvclose_errors]{\textcolor{blue}{Table }\ref{tab_dvclose_errors}}). This may result in premature convergence to very different hydraulic head values in specific cells, compared to a model run with stricter convergence criteria, and was therefore deemed a poor solution. 
+
+\begin{table}[ht]
+\centering
+\caption{Number of errors remaining after adjusting Outer\_dvclose and Inner\_dvclose, in MODFLOW simulations. Where, the errors refer to the MODFLOW simulation errors encountered when generating the results for \hyperref[emcee first results]{\textcolor{blue}{Section }\ref{emcee first results}}. And Outer\_dvclose and Inner\_dvclose are parameters set in MODFLOW6's iterative model solution (IMS) package, which is used to solve flow and/or transport simulations. Outer refers to the non-linear solver and Inner to the linear solver.}
+\label{tab_dvclose_errors}
+\begin{tabularx}{\textwidth}{XXX}
+\toprule
+Outer\_dvclose (m) & Inner\_dvclose (m) & Number of Errors Remaining \\
+\midrule
+0.001 (default) & 0.001 (default) & 185 \\
+0.01  & 0.01 & 75  \\
+0.1   & 0.1  & 18  \\
+1.0   & 1.0  & 0   \\
+\bottomrule
+\end{tabularx}
+\centering
+\end{table}
+
+Finally, the maximum allowed number of iterations was increased, allowing the numerical solver more computation time until convergence. Increasing the maximum iterations for the non-linear solver from 25 to 100 and for the linear solver from 50 to 100, decreased the number of errors from 185 to 1 (\hyperref[tab_dvclose_errors]{\textcolor{blue}{Table }\ref{tab_dvclose_errors}}). Further increasing both parameters to allow 1000 iterations each, removes the remaining error. Increasing the maximum allowed number of iterations to 1000 for IMS has little to no noticeable influence on total run time, considering that there were only 185 errors in 135 thousand model calls. Therefore, this is the preferred solution moving forward.
+
+\begin{table}[ht]
+\centering
+\caption{Number of errors remaining after adjusting the parameters: Outer\_maximum and Inner\_maximum, in MODFLOW simulations. Where the errors refer to the MODFLOW simulation errors encountered when generating the results for \hyperref[emcee first results]{\textcolor{blue}{Section }\ref{emcee first results}}. And Outer\_maximum and Inner\_maximum are parameters set in MODFLOW6's iterative model solution (IMS) package, which is used to solve flow and/or transport simulations. Outer refers to the non-linear solver and Inner to the linear solver.}
+\label{tab_maximum_errors}
+\begin{tabularx}{\textwidth}{XXX}
+\toprule
+Outer\_maximum (iterations) & Inner\_maximum (iterations) & Number of Errors Remaining \\
+\midrule
+25 (default) & 50 (default) & 185 \\
+100  & 100 & 1  \\
+1000   & 1000  & 0  \\
+\bottomrule
+\end{tabularx}
+\centering
+\end{table}
+
+

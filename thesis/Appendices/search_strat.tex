@@ -1,0 +1,39 @@
+\section{Search strategy in Scopus}\label{appendix search strat}
+This section explains how the data for \hyperref[tab1]{\textcolor{blue}{Table }\ref{tab1}} was acquired. For convenience a copy of Table \hyperref[tab1]{\textcolor{blue}{Table }\ref{tab1}} is given below (\hyperref[tab1_copy]{\textcolor{blue}{Table }\ref{tab1_copy}}). In order to identify which hydrological journals discuss MCMC most frequently, the following search query was carried out (28-04-2024) in Scopus: 
+\vspace{0.35cm} %.35
+\begin{mdframed}
+\textbf{Query:} TITLE-ABS-KEY ( mcmc OR "markov chain monte carlo" ) AND TITLE-ABS-KEY ( hydrolog* OR hydrogeolog* OR "subsurface flow*" OR groundwater ) 
+\end{mdframed} 
+\vspace{0.35cm} %.35
+This query resulted in 542 publications (in journals specifically) up to and including the year 2023. The journals returning most result from this query were:
+\begin{itemize}
+    \item 87 from: Water Resources Research
+    \item 70 from: Journal of Hydrology
+    \item 26 from: Stochastic Environmental Research and Risk Assessment
+    \item 21 from: Advances in Water Resources
+    \item 12 from: Journal of Hydrologic engineering
+\end{itemize}
+
+Stochastic Environmental Research and Risk Assessment was omitted, as it is not specifically tailored to hydrology. Therefore, the three selected journals were: Water Resources Research, Journal of Hydrology \& Advances in Water Resources. It was decided to not include more journals, because that would make it more time consuming to perform queries for the different MCMC algorithms with strongly diminishing returns regarding the number of papers mentioning MCMC. 
+
+For the algorithms presented in \hyperref[tab1]{\textcolor{blue}{Table }\ref{tab1}} the number of citations (by journals up to and including the year 2023) of the paper introducing the specific algorithm were looked up in Scopus, resulting in the 2\textsuperscript{nd} column. To give an indication of the popularity in hydrology, the search was narrowed down to the 3 selected hydrological journals (presented in 3\textsuperscript{rd} column). 
+\begin{table*}[htb]
+\caption{A comparison of the popularity of several MCMC algorithms between all fields of science and hydrology specifically. Popularity is quantified by counting how often the paper introducing the specific algorithms is cited. Three hydrological journals have been selected to indicate the popularity in hydrology: Journal of hydrology, Water Resources Research \& Advances in Water Resources.  These are the three journals where MCMC methods are most discussed, while  specifically tailored to hydrology (\hyperref[appendix search strat]{\textcolor{blue}{Appendix }\ref{appendix search strat}}).}
+
+\label{tab1_copy}
+\begin{tabularx}{\textwidth}{lXXl} 
+    \toprule
+    MCMC Method & citation in all journals & citations in hydrological journals & paper introducing algorithm\\
+    \midrule
+    %Metropolis & 23718 & 174 & \cite{metropolis1953equation}\\ % remove?
+    Metropolis-Hastings & 7922 & 123 & \cite{hastings1970monte}\\
+    Differential Evolution (DE) & 565 & 32 & \cite{terbraak2006markov}\\
+    DE with snooker updater (DE-SNK) & 338 & 53 & \cite{terbraak2008differential}\\
+    DREAM & 777 & 196 & \cite{vrugt2009accelerating}\\
+    Multiple-Try DREAM\textsubscript{(zs)} & 360 & 93\phantom{0} & \cite{laloy2012high}\\
+    Affine Invariant sampler (AI) & 1903 & 9\phantom{0}\phantom{0} & \cite{goodman2010ensemble} \\
+    Hamiltonian Monte Carlo (HMC) & 2154 & 10\phantom{0} & \cite{duane1987hybrid}\\
+    No-U-Turn Sampler (NUTS) & 1886 & 17\phantom{0} & \cite{hoffman2014no}\\ 
+    \bottomrule
+\end{tabularx}
+\end{table*}

@@ -1,0 +1,21 @@
+\section*{Abstract}\label{abstract}
+Calibration of model parameters is key for improving the reliability of model predictions and thereby informed decision making. Markov Chain Monte Carlo (MCMC) is a statistical method that has found widespread application in hydrological modelling for calibrating parameters and quantifying their uncertainty. Hundreds of MCMC algorithms have been designed, yet only a small selection is used by hydrologists, excluding some of the most popular algorithms in other fields of science, despite the absence of a comprehensive benchmark supporting this decision. In this study a contribution is made towards this benchmark, by comparing a single algorithm popular outside hydrology (Goodman and Weare’s Affine Invariant sampler; AI) to two algorithms popular in hydrology (Ter Braak’s DE and DE-SNK). Four simple steady-state synthetic groundwater flow models (developed using MODFLOW 6) were calibrated, with the number of calibrated parameters ranging from one to five. Performance diagnostics suggest that all three algorithms converge to the same posterior distribution for all models, but AI is distinctly less efficient than the others. DE-SNK overtakes DE for the model with the most calibrated parameters and is therefore recommended for groundwater modelling in general. In contrast, existing literature, based on vadose zone modelling, recommends AI based strategies below 10 calibrated parameters, implying the need to further study under which conditions which algorithm outperforms the others. 
+
+%word count = 186 for Draft, 216 for Final
+%%% problem description 
+%Markov Chain Monte Carlo (MCMC) is a statistical method that has found widespread application in hydrological modelling for calibrating parameters and quantifying their uncertainty. Hundreds of MCMC algorithms have been designed, yet only a small selection is used by hydrologists, excluding some of the most popular algorithms in other fields of science, while a comprehensive benchmark supporting this decision does not exist. 
+%%% objective
+%In this study a contribution is made towards this comprehensive benchmark by
+%%%methods
+%comparing a single algorithm popular outside hydrology (Goodman and Weare’s Affine Invariant sampler, AI) to two algorithms popular inside hydrology (Ter Braak’s DE and DE-SNK). Four simple synthetic groundwater flow models (MODFLOW 6) were calibrated with the number of calibrated parameters ranging from 1 to 5. % also vary priors and likelihoods
+%%% results
+%Performance diagnostics suggest that all three algorithms converge to the same posterior distribution for all models, but AI is distinctly less efficient than the others. DE-SNK overtakes DE for the model with the most calibrated parameters 
+%%% conclusion
+%and is therefore recommended for groundwater modelling.
+%%% outlook
+%In contrast, existing literature, based on vadose zone modelling, recommends AI based strategies below 10 calibrated parameters, implying the need for further research. 
+
+
+
+
+

@@ -1,0 +1,5 @@
+\subsection{Speed of MODFLOW simulations}
+I noticed that MODFLOW simulations speed, when running in MODFLOW in serial, is not consistent for different versions of Flopy and MODFLOW.  
+Using Flopy 3.6.0 with MODFLOW 6.5.0, which was used for generating the results in \hyperref[emcee first results]{\textcolor{blue}{Section }\ref{emcee first results}}),  resulted in 0.17 seconds per simulation for Model 1 (average of 100 runs). Flopy 3.8.1 with MODLFOW 6.6.0dev0, which was used in \hyperref[winpar]{\textcolor{blue}{Section }\ref{winpar}}, had longer run times of 0.50 seconds per model simulations (average of 100 runs). 
+
+This discrepancy may be caused by,  MODLFOW 3.6.0dev0 being designed to be efficient for parallel MODFLOW only. However, this is speculation. Regardless, for the remainder of the thesis Flopy 3.6.0 with MODFLOW 6.5.0 will be used, as my experiment shows that it is faster for serial simulations. 

@@ -1,0 +1,138 @@
+%Version 3 December 2023 modified by Douwe to suit style of thesis proposal
+
+\documentclass[iicol,pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
+
+%%%% Standard Packages
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage[table]{xcolor}
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+\usepackage{listings}%
+
+
+%extra packages added by Douwe:
+\usepackage{fix-cm} % to ensure all fonts are supported
+\usepackage{tabularx}
+\usepackage{mdframed} %using this I can insert textboxes
+\usepackage{placeins} %\usepackage[above,below]{placeins} % creates float barriers after every section
+\usepackage{natbib} % for concise bibliography
+\usepackage{caption}
+\captionsetup[figure]{skip=3pt} % distance between a figure/table and its caption
+\usepackage{hyperref} %needs to be the last package that is imported!!!
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published 
+%%%%  by Springer Nature. The guidance has been prepared in partnership with 
+%%%%  production teams to conform to Springer Nature technical requirements. 
+%%%%  Editorial and presentation requirements differ among journal portfolios and 
+%%%%  research disciplines. You may find sections in this template are irrelevant 
+%%%%  to your work and are empowered to omit any such section if allowed by the 
+%%%%  journal you intend to submit to. The submission guidelines and policies 
+%%%%  of the journal take precedence. A detailed User Manual is available in the 
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%%
+
+%\raggedbottom %makes all pages the height of the text on that page. No extra vertical space is added. See also Document Styles.
+
+%%\unnumbered% uncomment this for unnumbered level heads
+
+\begin{document}
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{2cm} % Adjust this to position content vertically
+        {\huge \textsc{Wageningen University}}\\
+        \vspace{1cm}% 1cm?
+        {\Large \textsc{Hydrology and Environmental Hydraulics Group}}\\
+        \vspace{1cm} % 8mm
+        {\large \textsc{Master Thesis}}\\
+        \vspace{5mm}
+        {\large \textsc{Earth and Environment}}\\
+        \vspace*{2cm}
+        \rule{.8\linewidth}{.6pt}\\[0.6cm]
+        \begin{minipage}{0.8\linewidth}
+            \centering
+            {\Huge \bfseries A comparison of Markov Chain Monte Carlo algorithms for parameter calibration in hydrology}
+        \end{minipage}\\[0.4cm]
+        \rule{.8\linewidth}{.6pt}\\[2cm]%2.5cm
+        \textit{Author:}\\
+        Douwe Kamper\\
+        \vspace*{0.5cm}
+        \textit{Supervisors:}\\
+        Lieke Melsen, Syed Mustafa \& Shota Gugushvili\\
+        \vspace{0.5cm} 
+        \today % Date
+    \end{center}
+    \vspace*{1cm} % 1.5cm
+    \begin{center}
+        \includegraphics[scale=0.45]{Figures/logo.jpg}
+    \end{center}
+\end{titlepage}
+\newpage
+
+\input{0_Abstract}
+
+\input{1_Introduction}
+
+\input{2_Theoretical_Background}
+
+\input{3_Methodology}
+
+\FloatBarrier
+
+\input{4_Results}
+
+\input{5_Discussion}
+
+\input{6_Conclusions}
+
+\input{7_Data_and_Scripts}
+
+\backmatter
+\setlength{\bibsep}{3pt} % Reduce or remove extra spacing
+\bibliography{sn-bibliography}% common bib file
+
+%\pagebreak
+
+% this fixes figure links within the appendix, previously links were to figures in in main text, e.g. figure 1 instead of figure C1. Solution was found at: https://tex.stackexchange.com/questions/245094/link-incorrectly-to-a-figure
+\renewcommand{\thefigure}{A\arabic{figure}}
+\renewcommand{\theHfigure}{A\arabic{figure}}
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\theHtable}{A\arabic{table}}
+
+
+% begin appendices
+\begin{appendices}
+\onecolumn % Switch to single-column layout
+\input{Appendices/search_strat}
+\input{Appendices/statement_AI}
+\FloatBarrier
+\input{Appendices/priors}
+\FloatBarrier
+\input{Appendices/results_extra}
+\twocolumn
+\input{Appendices/results_extra2}
+\FloatBarrier
+\newpage
+\onecolumn
+\input{Appendices/testing_runs}
+\FloatBarrier
+\newpage
+%\input{Appendices/log_book}
+\end{appendices}
+
+
+
+\end{document}

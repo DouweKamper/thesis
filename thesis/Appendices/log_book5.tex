@@ -1,0 +1,20 @@
+\subsection{Parallelise MODFLOW6 on Windows}\label{winpar}
+To decrease total run-time of the MCMC experiment it is important to apply parallelisation. Unfortunately, parallelising the MCMC package itself (emcee) was unsuccessful, due to a persisting OSError (\hyperref[virtual environment]{\textcolor{blue}{Section }\ref{virtual environment}}). A different parallelisation strategy is explored here, where only MODFLOW6 simulations are parallelised. This strategy was considered sufficient, because MODFLOW6 is by far the most computationally demanding component of the scripts used in this thesis. 
+
+\subsubsection{Model splitting examples in Flopy}
+In Flopy, parallelisation of MODFLOW6 is implemented by splitting the model into many sub-models. Parallelisation on Windows requires a FloPy version of 3.7 or higher and a MODFLOW 6 parallel nightly build for windows (\href{https://github.com/modflowpy/flopy/discussions/2316}{Github discussion}). This parallel nightly build was installed with the following command in Flopy: 
+\begin{lstlisting}[language=Python]
+flopy.utils.get_modflow(
+    ":python", 
+    repo="modflow6-nightly-build", 
+    ostag="win64par", 
+    force=True,
+)
+\end{lstlisting}
+
+I have managed to get a version of parallel MODFLOW 6 running successfully (executed from Spyder), with help from the United States Geological Survey (USGS). An essential step was to change my script locations from OneDrive to my C drive (\href{https://github.com/modflowpy/flopy/discussions/2316}{suggested by jdhughes-usgs}). Unfortunately, running in parallel has managed to slow down my simulation by an order of magnitude. When I posted this issue on their Github, the USGS replied that it works as intended (\href{https://github.com/modflowpy/flopy/discussions/2319}{reply by langevin-usgs}):
+\begin{quote}
+    @DouweKamper, this is expected behavior. There is a bit more to the story with parallel MODFLOW. When you split a single model into multiple models and run them in parallel, there is overhead due to the communication between processors. For small models, the combined overhead and numerical solution will be greater than simply solving the single model in serial. You will not typically see efficiency gains with parallel MODFLOW until the models have hundred of thousands of cells or more.
+\end{quote}
+
+Another issue with my implementation of parallel MODFLOW 6 is that all files created by MODFLOW 6 remain in the working directory and are not deleted. This is contrary to what one would expect, considering the \textit{with} statement is used in conjunction with \textit{TemporaryDirectory()}. The serial code does not have this issue. 

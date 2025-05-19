@@ -1,0 +1,24 @@
+\subsection{parallelise emcee}\label{par emcee}
+In this section the OSError encountered in \hyperref[virtual environment]{\textcolor{blue}{Section }\ref{virtual environment}} is resolved, leading to a robust parallelisation of emcee. The speed of the implemented parallelisation is compared to the serial speed. 
+
+\subsubsection{resolve error}
+The error message of the OSError indicated that the problem of synchroniously opening and closing files originated from a backend that stores the chain in an HDF5 file using h5py. 
+
+This backend is a class that is part of the emcee package (\href{https://emcee.readthedocs.io/en/stable/user/backends/#emcee.backends.HDFBackend}{documentation}). A similar problem was encountered by someone using MPI instead of multiprocessing for parallelization (\href{https://github.com/dfm/emcee/issues/389}{Github discussion}). Where, MPI is typically used for parallelisation on HPC and multiprocessing for parallelisation on a single machine. The solution for MPI required the inclusion of the following block of code:
+\begin{lstlisting}[language=python]
+    if not pool.is_master():
+        pool.wait()
+        sys.exit(0)
+\end{lstlisting}
+
+Unfortunately, this solution only works for MPI and not for multiprocessing. Instead, the backend was replaced by the function numpy.save(), to save the ensemble as a npy file. 
+
+\subsubsection{speed test}
+The speed of emcee for serial versus parallel implementations is compared. First a simple speed test without MODFLOW is performed (inspired by a \href{https://emcee.readthedocs.io/en/stable/tutorials/parallel/}{tutorial} for parallelising emcee). Subsequently a similar speed test is performed with MODFLOW coupled with emcee in parallel.
+
+The simple test showed parallel emcee to be 3 up to 5 times faster than serial. Parallel code becomes increasingly fast until the number of processors equals half the number of chains, using even more processors actually shows a small dip in performance. The fact that performance does not keep increasing when using increasingly more processors is because emcee will use a number of cores equal to half the number of walkers (\href{https://stackoverflow.com/questions/69234421/multiprocessing-the-python-module-emcee-but-not-all-available-cores-on-the-ma}{Stack Overflow}).
+
+The test where MODFLOW was coupled to emcee showed parallel emcee to be 2 to 3 times faster than serial. So, performance increase of parallel emcee is unfortunately a bit less for my implementation than for the simple test, but still much faster than serial. Similar to the simple test, parallel code becomes increasingly fast until the number of processors equals half, with more processors resulting in a small dip in performance. 
+
+\subsubsection{long run}
+An experiment was performed to test whether the error persists. A total of 36 ensembles with each 10 chains of 1000 steps were run successfully. Therefore, the new code is assumed to be robust.% run with logbook2_master_emcee_multi.py

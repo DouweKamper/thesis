@@ -1,0 +1,27 @@
+\section{Conclusions}\label{Conclusions}
+%
+Some MCMC algorithms that are popular in other fields of science are not only rarely used in hydrology, but their performance is also underexplored. Therefore, in this study, an MCMC algorithm most prominently used in astrophysics, AI, is compared to two MCMC algorithms commonly used in hydrology: DE and DE-SNK. 
+
+The performance of these algorithms was evaluated with a calibration exercise, in which each algorithm was given an identical calculation budget. The parameters of four steady-state synthetic groundwater flow models (MODFLOW 6), with a dimensionality ranging from 1 to 5, were calibrated. The importance of prior knowledge for model calibration was investigated by comparing the performance of the samplers for two different Gaussian priors. Additionally, the number of observations per layer in the groundwater flow models was varied (1, 3 or 5), to gain insight in the optimal number of observations.
+
+All three samplers converged to similar posterior distributions for the different models, but AI was distinctly the least efficient. Performance of DE and DE-SNK was similar, but DE-SNK is recommended, because it performed better when the dimensionality was 5 and because this difference is expected to increase in favour of DE-SNK based on existing literature. 
+
+The prior choice and the number of observations per layer had little effect on the performance of the samplers relative to each other. However, for all samplers, performance diagnostics indicated improvements when using the more informative prior. Furthermore, more observations per layer appear to result in a better estimate of the true posterior at the cost of a longer burn-in. 
+
+Other findings include the importance of parameter transformation for the numerical stability of MCMC samplers. Although this is well known in the statistical community, its application is rarely mentioned in hydrological MCMC literature, suggesting that parameter transformation is rarely applied. The absence of parameter transformation could also explain conflicting results with existing vadose zone modelling literature on whether AI or DE based strategies are superior in low dimensional problems. However, parameter transformation not being mentioned, does not guarantee that it was not applied. Therefore, it is recommended to further explore this in follow-up research.  
+
+Even though, in this study, AI was consistently outperformed by DE and DE-SNK. It remains unknown how other algorithms popular outside of hydrology, such as the No-U-Turn sampler, perform at hydrological model calibration, representing an important topic for future research.  
+
+%Further research into these methods could yield valuable insights for advancing hydrological modelling.
+
+%Assessing their suitability for hydrological model calibration presents an important direction for future research.
+
+
+%It is recommended to explore this in further research.
+
+
+%Additional findings showed correlations between parameters in shallow layers, suggesting the presence of equifinality. 
+
+%More research needed to confirm AI < DE, DE-SNK. Also comparison to other powerful samplers such as MT-DREAM(zs) and Hamiltonian Monte Carlo remain interesting ideas for future research.
+
+%For now samplers within hydrology triumph, but many samplers such as Hamiltonian monte caro remain untested an a comprehensive benchmark of varying dimensionality remains absent.

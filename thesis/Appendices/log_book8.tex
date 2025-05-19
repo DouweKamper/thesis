@@ -1,0 +1,356 @@
+\subsection{Change number of observations}\label{nr obs}
+In previous sections different problems were resolved. In this section these changes are combined. This includes correcting the added noise to observations (\hyperref[check noise]{\textcolor{blue}{Section }\ref{check noise}}), using a virtual environment (\hyperref[virtual environment]{\textcolor{blue}{Section }\ref{virtual environment}}), changing settings for MODFLOW to prevent simulation errors (\hyperref[MODFLOW_ERRORS]{\textcolor{blue}{Section }\ref{MODFLOW_ERRORS}}) and parallelising emcee (\hyperref[par emcee]{\textcolor{blue}{Section }\ref{par emcee}}). Additionally, DEsnooker now uses 90\% DE moves and 10\% snooker update moves, similar to \cite{terbraak2008differential}. With these changes in mind, the number of measurement locations (observations) is varied, investigating the effect on the posterior.  
+
+In \hyperref[emcee first results]{\textcolor{blue}{Section }\ref{emcee first results}}, a total of 3 observations were used in every MODFLOW simulation. These 3 observations were selected by the author in such a way that they are spread out throughout the xy grid of each model. The main drawback of this approach is that only 3 observations were selected, which means more parameters exist than measurements for Model 5, possibly leading to equifinality. Additionally, all models but Model 1 lack observations in some layers because the observations are limited to the upper most layer only.
+
+The new number of measurement locations are 1, 3 and 5 locations per layer, with the (x,y) coordinates being consistent across layers (measurement well style). This means that with only 1 measurement location per layer, Model 4 already increases from 3 to 5 total observations. These coordinates were selected randomly with the function \textit{randint} from the built-in \textit{random} module. To compare the effect of different number of sampling locations on the posterior, the posterior mean and standard deviation are presented in \hyperref[log8 mean]{\textcolor{blue}{Section }\ref{log8 mean}}.
+
+\subsubsection{short runs}\label{log8 mean}
+For Model 1, the ensemble means shifts towards the true optimum when the number of observations increases to 5, consistent for all algorithms (Table \ref{tab_logbook8_obs1_model1}, \ref{tab_logbook8_obs3_model1} \& \ref{tab_logbook8_obs5_model1}). With all chains having 1500 steps out of which 500 from burn-in are subtracted, leaving 1000 steps contributing to the main sampling presented in the tables. 
+
+For Model 2, the ensemble means also shift towards the true optimum with increasing number of observations (Table \ref{tab_logbook8_obs1_model2}, \ref{tab_logbook8_obs3_model2} \& \ref{tab_logbook8_obs5_model2}). However, when using 5 observation locations, DE does not (yet) converge to the true optimum for $\theta_2$ (Table \ref{tab_logbook8_obs5_model2}). 
+
+For Model 3, the ensemble means also shift towards the true optimum with increasing number of observations (Table \ref{tab_logbook8_obs1_model3}, \ref{tab_logbook8_obs3_model3} \& \ref{tab_logbook8_obs5_model3}). For Model 3, using 5 observation locations, DE does not (yet) converge to the true optimum for $\theta_2$ (Table \ref{tab_logbook8_obs5_model3}), which is similar to Model 2 (Table \ref{tab_logbook8_obs5_model2}).
+
+For Model 4, increasing the number of observations from 1 to 5 appears to not improve parameter calibration (Table \ref{tab_logbook8_obs1_model4}, \ref{tab_logbook8_obs3_model4} \& \ref{tab_logbook8_obs5_model4}), contrary to the other models.
+
+\subsubsection{long runs}
+No method converged to the true optima for Model 4 with a chain length of 1500 steps and increasing the number of observations per layer from 1 to 5 also showed no improvement. An ensemble with longer chains of 10000 steps and 50 observations per layer was run in an attempt to converge to the true optima. 
+
+%flaw is that multiple instances of the same location are possible. -> should save file with locations
+
+% read how float environments work in latex
+% also read if changes have been made since publication 2014
+\clearpage
+
+% Table 1
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameter ($\theta$) of Model 1 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). One observation was used.}
+\label{tab_logbook8_obs1_model1}
+\begin{tabularx}{\textwidth}{XX}
+\toprule
+ & $\theta_1$ \\
+\midrule
+Stretch (e1) & 10.3 (1.1) \\
+Stretch (e2) & 10.8 (1.5) \\
+Stretch (e3) & 10.3 (2.0) \\
+\midrule
+DE (e1) & 10.6 (0.8) \\
+DE (e2) & 10.7 (0.5) \\
+DE (e3) & 10.7 (0.5) \\
+\midrule
+DEsnooker (e1) & 11.0 (0.6) \\
+DEsnooker (e2) & 11.0 (0.5) \\
+DEsnooker (e3) & 10.7 (0.4) \\
+\midrule
+\textbf{True value} & \textbf{5.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% Table 2
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameter ($\theta$) of Model 1 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Three observations were used.}
+\label{tab_logbook8_obs3_model1}
+\begin{tabularx}{\textwidth}{XX}
+\toprule
+ & $\theta_1$ \\
+\midrule
+Stretch (e1) & 11.0 (0.7) \\
+Stretch (e2) & 11.5 (1.6) \\
+Stretch (e3) & 10.6 (0.9) \\
+\midrule
+DE (e1) & 11.2 (0.5) \\
+DE (e2) & 10.8 (0.4) \\
+DE (e3) & 10.9 (0.4) \\
+\midrule
+DEsnooker (e1) & 11.0 (0.6) \\
+DEsnooker (e2) & 11.0 (0.6) \\
+DEsnooker (e3) & 11.2 (0.9) \\
+\midrule
+\textbf{True value} & \textbf{5.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% Table 3
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameter ($\theta$) of Model 1 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Five observations were used.}
+\label{tab_logbook8_obs5_model1}
+\begin{tabularx}{\textwidth}{XX}
+\toprule
+ & $\theta_1$ \\
+\midrule
+Stretch (e1) & 5.6 (0.1) \\
+Stretch (e2) & 5.6 (0.1) \\
+Stretch (e3) & 5.6 (0.1) \\
+\midrule
+DE (e1) & 5.6 (0.0) \\
+DE (e2) & 5.6 (0.0) \\
+DE (e3) & 5.6 (0.0) \\
+\midrule
+DEsnooker (e1) & 5.6 (0.0) \\
+DEsnooker (e2) & 5.6 (0.0) \\
+DEsnooker (e3) & 5.6 (0.0) \\
+\midrule
+\textbf{True value} & \textbf{5.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+
+% Table 4
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 2 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). One observation was used}
+\label{tab_logbook8_obs1_model2}
+\begin{tabularx}{\textwidth}{XXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ \\
+\midrule
+Stretch (e1) & 1.2 (0.3) & 5.4 (2.3) \\
+Stretch (e2) & 1.5 (0.4) & 4.3 (1.5) \\
+Stretch (e3) & 1.5 (0.4) & 4.3 (1.9) \\
+\midrule
+DE (e1) & 1.4 (0.3) & 4.4 (1.6) \\
+DE (e2) & 1.3 (0.3) & 5.0 (1.7) \\
+DE (e3) & 1.4 (0.3) & 4.9 (1.7) \\
+\midrule
+DEsnooker (e1) & 1.3 (0.2) & 4.5 (1.2) \\
+DEsnooker (e2) & 1.6 (0.2) & 3.0 (0.6) \\
+DEsnooker (e3) & 1.5 (0.4) & 4.2 (1.3) \\
+\midrule
+\textbf{True value} & \textbf{2.0} & \textbf{1.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+
+% Table 5
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameter ($\theta$) of Model 2 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Three observations were used.}
+\label{tab_logbook8_obs3_model2}
+\begin{tabularx}{\textwidth}{XXX}
+\toprule
+ & $\theta_1$  & $\theta_2$ \\
+\midrule
+Stretch (e1) & 1.3 (0.3) & 2.3 (2.0) \\
+Stretch (e2) & 1.4 (0.2) & 1.7 (0.5) \\
+Stretch (e3) & 1.4 (0.2) & 1.7 (0.4) \\
+\midrule
+DE (e1) & 1.4 (0.1) & 1.6 (0.2) \\
+DE (e2) & 1.4 (0.1) & 1.7 (0.2) \\
+DE (e3) & 1.3 (0.4) & 3.2 (4.9) \\
+\midrule
+DEsnooker (e1) & 1.5 (0.1) & 1.6 (0.2) \\
+DEsnooker (e2) & 1.4 (0.1) & 1.6 (0.2) \\
+DEsnooker (e3) & 1.4 (0.1) & 1.6 (0.1) \\
+\midrule
+\textbf{True value} & \textbf{2.0} & \textbf{1.0}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% Table 6
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameter ($\theta$) of Model 2 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Five observations were used.}
+\label{tab_logbook8_obs5_model2}
+\begin{tabularx}{\textwidth}{XXX}
+\toprule
+ & $\theta_1$  & $\theta_2$ \\
+\midrule
+Stretch (e1) & 2.3 (0.0) & 0.6 (0.0) \\
+Stretch (e2) & 2.4 (0.0) & 0.6 (0.1) \\
+Stretch (e3) & 2.4 (0.0) & 0.6 (0.0) \\
+\midrule
+DE (e1) & 2.1 (0.5) & 3.0 (6.9) \\
+DE (e2) & 2.2 (0.5) & 2.8 (6.5) \\
+DE (e3) & 2.2 (0.5) & 2.4 (5.5) \\
+\midrule
+DEsnooker (e1) & 2.4 (0.0) & 0.6 (0.0) \\
+DEsnooker (e2) & 2.4 (0.0) & 0.6 (0.0) \\
+DEsnooker (e3) & 2.4 (0.0) & 0.6 (0.0) \\
+\midrule
+\textbf{True value} & \textbf{2.0} & \textbf{1.0}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\clearpage
+
+
+
+% Table 7
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 3 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). One observation was used}
+\label{tab_logbook8_obs1_model3}
+\begin{tabularx}{\textwidth}{XXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$\\
+\midrule
+Stretch (e1) & 1.2 (0.3) & 11.4 (2.0) & 5.6 (2.1) \\
+Stretch (e2) & 1.2 (0.3) & 12.0 (1.8) & 6.1 (2.5) \\
+Stretch (e3) & 1.5 (0.7) & 10.9 (1.1) & 4.9 (2.6) \\
+\midrule
+DE (e1) & 1.2 (0.3) & 11.9 (1.5) & 6.8 (2.1) \\
+DE (e2) & 1.2 (0.3) & 10.9 (1.0) & 6.1 (3.2) \\
+DE (e3) & 1.3 (0.3) & 11.9 (0.9) & 5.8 (1.3) \\
+\midrule
+DEsnooker (e1) & 1.3 (0.3) & 10.9 (1.7) & 5.7 (1.4) \\
+DEsnooker (e2) & 1.5 (0.5) & 11.6 (1.3) & 5.6 (2.2) \\
+DEsnooker (e3) & 1.2 (0.3) & 11.9 (1.6) & 5.8 (1.7) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.01} &\textbf{10.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% Table 8
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 3 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Three observations were used}
+\label{tab_logbook8_obs3_model3}
+\begin{tabularx}{\textwidth}{XXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$\\
+\midrule
+Stretch (e1) & 1.4 (0.3) & 10.2 (1.6) & 2.3 (1.1) \\
+Stretch (e2) & 1.4 (0.3) & 11.0 (1.7) & 2.1 (0.5) \\
+Stretch (e3) & 1.2 (0.4) & 10.8 (2.3) & 3.1 (1.9) \\
+\midrule
+DE (e1) & 1.1 (0.5) & 10.6 (1.8) & 5.3 (7.3) \\
+DE (e2) & 1.4 (0.2) & 11.0 (1.5) & 2.0 (0.3) \\
+DE (e3) & 1.3 (0.5) & 10.6 (1.2) & 4.9 (7.4) \\
+\midrule
+DEsnooker (e1) & 1.3 (0.2) & 10.9 (0.8) & 2.1 (0.4) \\
+DEsnooker (e2) & 1.3 (0.1) & 11.3 (1.2) & 2.0 (0.3) \\
+DEsnooker (e3) & 1.0 (0.4) & 12.1 (1.7) & 4.7 (6.3) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.01} &\textbf{10.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% Table 9
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 3 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Five observations were used}
+\label{tab_logbook8_obs5_model3}
+\begin{tabularx}{\textwidth}{XXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$\\
+\midrule
+Stretch (e1) & 0.9 (0.1) & 0.1 (0.3) & 8.8 (1.5) \\
+Stretch (e2) & 0.9 (0.2) & 0.2 (0.6) & 8.9 (1.5) \\
+Stretch (e3) & 0.9 (0.1) & 0.4 (1.0) & 9.0 (1.6) \\
+\midrule
+DE (e1) & 0.7 (0.2) & 3.6 (8.3) & 6.5 (2.5) \\
+DE (e2) & 0.9 (0.9) & 1.8 (2.8) & 5.7 (2.8) \\
+DE (e3) & 0.6 (0.2) & 2.0 (3.5) & 6.9 (2.2) \\
+\midrule
+DEsnooker (e1) & 0.7 (0.2) & 1.1 (3.0) & 7.8 (2.0) \\
+DEsnooker (e2) & 0.8 (0.2) & 0.7 (1.4) & 11.2 (8.8) \\
+DEsnooker (e3) & 0.8 (0.2) & 0.5 (1.1) & 8.3 (2.0) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.01} &\textbf{10.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+
+% Table 10
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 4 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). One observation was used}
+\label{tab_logbook8_obs1_model4}
+\begin{tabularx}{\textwidth}{lXXXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ & $\theta_5$ \\
+\midrule
+Stretch (e1) & 0.7 (1.1) & 3.9 (3.0) & 3.2 (3.5) & 6.0 (10.7) & 6.0 (6.0) \\
+Stretch (e2) & 2.8 (2.5) & 3.5 (4.7) & 15.8 (11.7) & 10.2 (9.8) & 9.9 (7.9) \\
+Stretch (e3) & 0.7 (0.9) & 9.7 (5.7) & 5.8 (8.6) & 7.3 (4.3) & 3.4 (3.4) \\
+\midrule
+DE (e1) & 0.8 (1.5) & 6.4 (6.4) & 6.0 (5.7) & 8.9 (4.3) & 4.7 (4.0) \\
+DE (e2) & 0.8 (1.2) & 5.8 (3.5) & 5.2 (4.8) & 8.5 (5.6) & 5.3 (5.2) \\
+DE (e3) & 2.3 (2.9) & 6.6 (6.5) & 8.2 (6.8) & 14.7 (8.6) & 8.0 (8.8) \\
+\midrule
+DEsnooker (e1) & 1.0 (1.7) & 4.1 (5.4) & 6.5 (6.3) & 8.8 (4.5) & 3.2 (3.2) \\
+DEsnooker (e2) & 2.0 (3.1) & 5.9 (5.4) & 5.2 (3.6) & 8.4 (4.7) & 5.8 (8.6) \\
+DEsnooker (e3) & 0.8 (1.3) & 4.8 (4.1) & 6.1 (6.5) & 8.5 (9.5) & 5.7 (4.7) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.1} &\textbf{4.0} & \textbf{0.01} &\textbf{3.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% Table 11
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 4 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Three observations were used}
+\label{tab_logbook8_obs3_model4}
+\begin{tabularx}{\textwidth}{lXXXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ & $\theta_5$ \\
+\midrule
+Stretch (e1) & 0.3 (0.2) & 5.3 (2.2) & 6.9 (5.1) & 7.6 (11.2) & 9.2 (8.8) \\
+Stretch (e2) & 2.9 (3.5) & 4.5 (4.2) & 11.9 (9.1) & 1.4 (2.9) & 5.2 (3.5) \\
+Stretch (e3) & 0.4 (0.3) & 4.3 (5.9) & 3.3 (3.3) & 9.7 (7.6) & 7.1 (11.1) \\
+\midrule
+DE (e1) & 1.1 (1.2) & 6.5 (9.3) & 12.9 (10.7) & 15.0 (11.2) & 5.2 (4.1) \\
+DE (e2) & 2.9 (5.0) & 6.2 (7.9) & 10.9 (9.6) & 8.6 (6.8) & 8.5 (7.8) \\
+DE (e3) & 3.1 (5.0) & 6.1 (7.8) & 7.7 (8.8) & 12.2 (9.5) & 13.2 (13.1) \\
+\midrule
+DEsnooker (e1) & 0.8 (0.4) & 2.2 (2.4) & 5.3 (5.7) & 4.8 (4.0) & 2.7 (1.8) \\
+DEsnooker (e2) & 1.0 (0.7) & 2.0 (1.9) & 5.0 (3.3) & 10.9 (7.9) & 3.6 (4.2) \\
+DEsnooker (e3) & 1.4 (0.8) & 1.7 (1.9) & 2.2 (1.7) & 6.8 (6.9) & 7.2 (5.1) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.1} &\textbf{4.0} & \textbf{0.01} &\textbf{3.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+% Table 12
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as mean (std). Results are from calibrating the parameters ($\theta$) of Model 4 with different samplers (Stretch, DE, DEsnooker), with each three ensembles (e). Five observations were used}
+\label{tab_logbook8_obs5_model4}
+\begin{tabularx}{\textwidth}{lXXXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ & $\theta_5$ \\
+\midrule
+Stretch (e1) & 0.7 (0.6) & 8.7 (6.0) & 9.0 (5.2) & 10.9 (14.8) & 10.3 (9.1) \\
+Stretch (e2) & 1.3 (0.4) & 0.5 (1.4) & 7.9 (12.2) & 0.1 (0.3) & 6.6 (5.4) \\
+Stretch (e3) & 0.8 (0.2) & 2.9 (5.6) & 3.8 (2.2) & 0.7 (1.2) & 2.2 (1.1) \\
+\midrule
+DE (e1) & 0.9 (1.3) & 8.0 (11.1) & 14.3 (15.0) & 31.1 (24.3) & 15.4 (20.6) \\
+DE (e2) & 2.9 (4.7) & 9.2 (10.9) & 15.4 (16.5) & 12.4 (11.2) & 7.7 (8.9) \\
+DE (e3) & 2.3 (3.8) & 8.4 (8.9) & 12.0 (13.7) & 16.3 (11.4) & 7.3 (8.0) \\
+\midrule
+DEsnooker (e1) & 0.8 (0.9) & 8.1 (9.1) & 7.6 (10.1) & 15.8 (12.3) & 8.9 (11.9) \\
+DEsnooker (e2) & 0.8 (0.8) & 1.4 (1.3) & 2.7 (2.8) & 16.5 (14.2) & 7.1 (5.4) \\
+DEsnooker (e3) & 0.8 (0.7) & 7.3 (10.2) & 7.7 (11.0) & 15.3 (10.6) & 8.1 (9.9) \\
+\midrule
+\textbf{True value} & \textbf{1.0} & \textbf{0.1} &\textbf{4.0} & \textbf{0.01} &\textbf{3.0} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% Table 13
+\begin{table}[ht]
+\caption{Ensemble mean ($\mu$) and the standard deviation of the ensemble mean ($\sigma$), presented as $\mu (\sigma)$. Results are from calibrating the parameters ($\theta$) of Model 4 with one ensemble of 10 chains of DEsnooker. Fifty observations were used and chain length is 10000 steps including burn-in.}
+\label{tab_logbook8_obs50_model4}
+\begin{tabularx}{\textwidth}{lXXXXX}
+\toprule
+ & $\theta_1$ & $\theta_2$ & $\theta_3$ & $\theta_4$ & $\theta_5$ \\
+\midrule
+$\mu (\sigma)$ last 6000 steps & 0.9 (0.2) & 0.7 (1.1) & 3.0 (1.5) & 0.9 (1.4) & 2.9 (0.3) \\
+$\mu (\sigma)$ last 3000 steps  & 0.9 (0.2) & 0.6 (1.0) & 3.6 (1.6) & 0.2 (0.4) & 2.5 (0.5) \\
+\textbf{$\mu$ true value} & \textbf{1.0} & \textbf{0.1} &\textbf{4.0} & \textbf{0.01} &\textbf{3.0} \\
+\midrule
+$\hat{R}$ last 6000 steps & 1.58 & 1.60 & 1.55 & 1.58 & 1.27 \\
+$\hat{R}$ last 3000 steps & 1.37 & 1.40 & 1.39 & 1.40 & 1.40 \\
+\bottomrule
+\end{tabularx}
+\end{table}
